@@ -23,11 +23,11 @@ export function resolveWindowsPickerPatch() {
 }
 
 export function resolveDesktopPatch() {
-  return fileURLToPath(new URL('../plugins/archived-sessions/cordis.patch.yml', import.meta.url))
+  return unpackedPath(fileURLToPath(import.meta.resolve('dsh-archived-sessions/cordis.patch.yml')))
 }
 
 export function resolveDesktopPluginDirectory() {
-  return fileURLToPath(new URL('../plugins/archived-sessions/', import.meta.url))
+  return dirname(unpackedPath(fileURLToPath(import.meta.resolve('dsh-archived-sessions/package.json'))))
 }
 
 export function ensureDesktopPluginLink({
@@ -39,8 +39,7 @@ export function ensureDesktopPluginLink({
     resolveDshHome(undefined, environment),
     'profiles',
     'node_modules',
-    '@deepseek-harness-desktop',
-    'client-ui-archived-sessions',
+    'dsh-archived-sessions',
   )
   mkdirSync(dirname(target), { recursive: true })
 

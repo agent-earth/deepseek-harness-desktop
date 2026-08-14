@@ -65,7 +65,7 @@ DeepSeek Harness already provides the complete agent runtime and Web UI. This pr
 - Shows a lightweight loading screen while the local Harness service starts
 - Keeps running in the system tray when the main window is closed
 - Preserves the complete settings, models, sessions, plugins, and agent experience
-- Adds an Archived settings page with restore support through a desktop all-in plugin
+- Adds an Archived settings page with restore support through the built-in [dsh-archived-sessions](https://github.com/smackgg/dsh-archived-sessions) all-in plugin
 - Gracefully terminates the Harness child process on application exit
 - Listens only on a random local loopback port
 - Supports macOS on Apple Silicon and Intel

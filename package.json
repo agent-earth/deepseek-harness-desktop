@@ -30,7 +30,6 @@
     "dist:linux": "electron-builder --linux AppImage deb --x64 --publish never"
   },
   "dependencies": {
-    "@deepseek-harness-desktop/client-ui-archived-sessions": "file:plugins/archived-sessions",
     "@deepseek-ai/cordis-plugin-group": "1.0.1",
     "@deepseek-ai/dsh": "0.1.0-rc.6",
     "@deepseek-ai/dsh-anonymous-user-id": "0.1.0-rc.6",
@@ -52,7 +51,8 @@
     "@deepseek-ai/dsh-subprocess": "0.1.0-rc.6",
     "@deepseek-ai/dsh-timeout": "0.1.0-rc.6",
     "@deepseek-ai/dsh-workspace": "0.1.0-rc.6",
-    "@deepseek-ai/dsh-workflow": "0.1.0-rc.6"
+    "@deepseek-ai/dsh-workflow": "0.1.0-rc.6",
+    "dsh-archived-sessions": "https://github.com/smackgg/dsh-archived-sessions/archive/266e469c3528b629292c5d46d383d4e333772f10.tar.gz"
   },
   "devDependencies": {
     "electron": "43.4.0",
@@ -67,7 +67,6 @@
     "files": [
       "src/**/*",
       "config/**/*",
-      "plugins/**/*",
       "assets/icon.png",
       "assets/tray.png",
       "assets/trayTemplate.png",

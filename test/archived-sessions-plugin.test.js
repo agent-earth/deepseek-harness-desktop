@@ -2,18 +2,28 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import { WorkspaceRegistry } from '@deepseek-ai/dsh-workspace'
-import { restoreArchivedSession } from '../plugins/archived-sessions/lib/index.js'
-import { TYPERT } from '../plugins/archived-sessions/lib/typert.host.js'
-import { TYPERT_REMOTE } from '../plugins/archived-sessions/lib/typert.remote-client.js'
+import { restoreArchivedSession } from 'dsh-archived-sessions'
+import { TYPERT } from 'dsh-archived-sessions/typert'
+import { TYPERT_REMOTE } from 'dsh-archived-sessions/remote'
 
-const clientUrl = new URL('../plugins/archived-sessions/lib/client.js', import.meta.url)
-const patchUrl = new URL('../plugins/archived-sessions/cordis.patch.yml', import.meta.url)
+const clientUrl = new URL(import.meta.resolve('dsh-archived-sessions/client'))
+const patchUrl = new URL(import.meta.resolve('dsh-archived-sessions/cordis.patch.yml'))
+const desktopManifestUrl = new URL('../package.json', import.meta.url)
+
+test('desktop pins the external plugin to an immutable GitHub commit', async () => {
+  const manifest = JSON.parse(await readFile(desktopManifestUrl, 'utf8'))
+
+  assert.match(
+    manifest.dependencies['dsh-archived-sessions'],
+    /^https:\/\/github\.com\/smackgg\/dsh-archived-sessions\/archive\/[0-9a-f]{40}\.tar\.gz$/,
+  )
+})
 
 test('desktop profile mounts the archived sessions settings plugin', async () => {
   const patch = await readFile(patchUrl, 'utf8')
 
   assert.match(patch, /id:\s*ui-archived-sessions/)
-  assert.match(patch, /@deepseek-harness-desktop\/client-ui-archived-sessions/)
+  assert.match(patch, /name:\s*['"]dsh-archived-sessions['"]/)
 })
 
 test('archived sessions page mounts the restore Remote and exposes an unarchive action', async () => {

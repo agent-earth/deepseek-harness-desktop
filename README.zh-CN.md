@@ -65,7 +65,7 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 - 启动 Harness 服务时显示轻量等待界面，不再出现无响应感
 - 支持系统托盘驻留，关闭主窗口后可继续在后台运行
 - 保留完整的设置、模型、会话、插件和 Agent 能力
-- 通过桌面 all-in plugin 提供“已归档”设置页和取消归档能力
+- 通过内置的 [dsh-archived-sessions](https://github.com/smackgg/dsh-archived-sessions) all-in plugin 提供“已归档”设置页和取消归档能力
 - 应用退出时自动终止 Harness 子进程
 - Web 服务仅监听随机本地回环端口，不暴露到局域网
 - macOS 支持 Apple Silicon 和 Intel
