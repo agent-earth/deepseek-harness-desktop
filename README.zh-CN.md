@@ -30,7 +30,7 @@
 
 DeepSeek Harness Desktop 将官方 DeepSeek Harness Web 体验封装为独立桌面应用。无需手动启动 CLI 或管理端口，打开应用即可使用完整 Harness 界面。
 
-本项目专注于桌面宿主能力，不 fork、不修改、不注入，也不重新实现 Harness UI。模型、会话、设置、插件和 Agent 能力均由官方 `@deepseek-ai/dsh` 提供。
+本项目专注于桌面宿主能力，不 fork、也不修改上游包；桌面特有能力通过 Harness 插件和少量兼容样式完成组合。核心模型、会话、设置和 Agent Runtime 仍由官方 `@deepseek-ai/dsh` 提供。
 
 > [!IMPORTANT]
 > 本项目是非官方社区封装，目前仍属于早期版本，并依赖快速演进中的 `@deepseek-ai/dsh@0.1.0-rc.6`。macOS 构建尚未经过 Apple 公证，Windows 构建尚未进行商业代码签名。
@@ -65,6 +65,7 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 - 启动 Harness 服务时显示轻量等待界面，不再出现无响应感
 - 支持系统托盘驻留，关闭主窗口后可继续在后台运行
 - 保留完整的设置、模型、会话、插件和 Agent 能力
+- 通过桌面 all-in plugin 提供“已归档”设置页和取消归档能力
 - 应用退出时自动终止 Harness 子进程
 - Web 服务仅监听随机本地回环端口，不暴露到局域网
 - macOS 支持 Apple Silicon 和 Intel

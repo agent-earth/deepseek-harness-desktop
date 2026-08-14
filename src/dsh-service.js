@@ -1,5 +1,8 @@
 import { spawn } from 'node:child_process'
+import { lstatSync, mkdirSync, readlinkSync, symlinkSync, unlinkSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { resolveDshHome } from '@deepseek-ai/dsh-home-paths'
 
 const READY_PATTERN = /^dsh web: (http:\/\/127\.0\.0\.1:\d+)\b/m
 
@@ -19,8 +22,48 @@ export function resolveWindowsPickerPatch() {
   return fileURLToPath(new URL('../config/windows-directory-picker.patch.yml', import.meta.url))
 }
 
+export function resolveDesktopPatch() {
+  return fileURLToPath(new URL('../config/desktop.patch.yml', import.meta.url))
+}
+
+export function resolveDesktopPluginDirectory() {
+  return fileURLToPath(new URL('../plugins/archived-sessions/', import.meta.url))
+}
+
+export function ensureDesktopPluginLink({
+  environment = process.env,
+  platform = process.platform,
+  pluginDirectory = resolveDesktopPluginDirectory(),
+} = {}) {
+  const target = join(
+    resolveDshHome(undefined, environment),
+    'profiles',
+    'node_modules',
+    '@deepseek-harness-desktop',
+    'client-ui-archived-sessions',
+  )
+  mkdirSync(dirname(target), { recursive: true })
+
+  try {
+    const entry = lstatSync(target)
+    if (!entry.isSymbolicLink()) {
+      throw new Error(`Cannot mount the desktop plugin because ${target} already exists and is not a link`)
+    }
+
+    const linked = resolve(dirname(target), readlinkSync(target))
+    if (linked === resolve(pluginDirectory)) return target
+    unlinkSync(target)
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error
+  }
+
+  symlinkSync(resolve(pluginDirectory), target, platform === 'win32' ? 'junction' : 'dir')
+  return target
+}
+
 export function buildDshArgs(entry, {
   platform = process.platform,
+  desktopPatch = resolveDesktopPatch(),
   windowsPickerPatch = resolveWindowsPickerPatch(),
 } = {}) {
   return [
@@ -28,6 +71,8 @@ export function buildDshArgs(entry, {
     entry,
     '--profile',
     'web',
+    '--patch',
+    desktopPatch,
     ...(platform === 'win32' ? ['--patch', windowsPickerPatch] : []),
     '--host',
     '127.0.0.1',
@@ -46,6 +91,8 @@ export function startDshService({
   if (!electronExecutable) {
     throw new Error('electronExecutable is required')
   }
+
+  ensureDesktopPluginLink({ environment, platform })
 
   const child = spawn(electronExecutable, buildDshArgs(entry, { platform }), {
     env: {

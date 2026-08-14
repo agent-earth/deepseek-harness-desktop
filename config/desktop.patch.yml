@@ -1,0 +1,3 @@
+- insert:
+    - id: ui-archived-sessions
+      name: '@deepseek-harness-desktop/client-ui-archived-sessions'

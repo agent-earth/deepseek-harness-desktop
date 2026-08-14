@@ -30,7 +30,7 @@
 
 DeepSeek Harness Desktop packages the official DeepSeek Harness Web experience as a standalone desktop application. It removes the need to start the CLI manually or manage local ports while preserving the full Harness interface.
 
-This project focuses on desktop hosting. It does not fork, modify, inject into, or reimplement the Harness UI. Models, sessions, settings, plugins, and agent capabilities remain provided by the official `@deepseek-ai/dsh` package.
+This project focuses on desktop hosting. It does not fork or modify the upstream package; desktop-specific capabilities are composed through Harness plugins and small compatibility styles. The core models, sessions, settings, and agent runtime remain provided by the official `@deepseek-ai/dsh` package.
 
 > [!IMPORTANT]
 > This is an unofficial community wrapper and an early-stage project. It depends on the rapidly evolving `@deepseek-ai/dsh@0.1.0-rc.6`. The macOS builds are not Apple-notarized, and the Windows builds are not commercially code-signed.
@@ -65,6 +65,7 @@ DeepSeek Harness already provides the complete agent runtime and Web UI. This pr
 - Shows a lightweight loading screen while the local Harness service starts
 - Keeps running in the system tray when the main window is closed
 - Preserves the complete settings, models, sessions, plugins, and agent experience
+- Adds an Archived settings page with restore support through a desktop all-in plugin
 - Gracefully terminates the Harness child process on application exit
 - Listens only on a random local loopback port
 - Supports macOS on Apple Silicon and Intel
