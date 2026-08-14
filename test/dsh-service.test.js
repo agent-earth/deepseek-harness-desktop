@@ -77,7 +77,7 @@ test('buildDshArgs pins the browse directory picker on Windows', () => {
     '--port',
     '0',
   ])
-  assert.equal(resolveDesktopPatch().endsWith('desktop.patch.yml'), true)
+  assert.equal(resolveDesktopPatch().endsWith('cordis.patch.yml'), true)
   assert.equal(resolveWindowsPickerPatch().endsWith('windows-directory-picker.patch.yml'), true)
 })
 

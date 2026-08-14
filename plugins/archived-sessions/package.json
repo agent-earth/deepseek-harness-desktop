@@ -7,11 +7,15 @@
   "exports": {
     ".": "./lib/index.js",
     "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
     "./remote": "./lib/typert.remote-client.js",
     "./typert": "./lib/typert.host.js",
     "./package.json": "./package.json"
   },
   "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
     "client": {
       "inject": [
         "@deepseek-ai/dsh-api-remotes",
@@ -22,6 +26,10 @@
       "platform": "web"
     }
   },
+  "files": [
+    "cordis.patch.yml",
+    "lib/**/*.js"
+  ],
   "dependencies": {
     "zod": "^4.4.3"
   },

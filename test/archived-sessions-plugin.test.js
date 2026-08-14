@@ -7,7 +7,7 @@ import { TYPERT } from '../plugins/archived-sessions/lib/typert.host.js'
 import { TYPERT_REMOTE } from '../plugins/archived-sessions/lib/typert.remote-client.js'
 
 const clientUrl = new URL('../plugins/archived-sessions/lib/client.js', import.meta.url)
-const patchUrl = new URL('../config/desktop.patch.yml', import.meta.url)
+const patchUrl = new URL('../plugins/archived-sessions/cordis.patch.yml', import.meta.url)
 
 test('desktop profile mounts the archived sessions settings plugin', async () => {
   const patch = await readFile(patchUrl, 'utf8')
@@ -24,6 +24,8 @@ test('archived sessions page mounts the restore Remote and exposes an unarchive 
   assert.match(client, /cancel:\s*'取消'/)
   assert.match(client, /ctx\.remote\.archivedSessions\.restore\(sessionId\)/)
   assert.match(client, /ctx\.remote\.\$mount\(TYPERT_REMOTE\)/)
+  assert.match(client, /ctx\.inject\([\s\S]*'remote\.archivedSessions'/)
+  assert.doesNotMatch(client, /尚未提供公开的恢复归档 API/)
   assert.doesNotMatch(client, /\.archiveSession\s*\(/)
 })
 

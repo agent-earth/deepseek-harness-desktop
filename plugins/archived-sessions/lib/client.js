@@ -12,7 +12,7 @@ window.__ModuleLoader__.load({
 
     const NS = 'settings.archivedSessions'
     const STYLE_ID = '@deepseek-harness-desktop/client-ui-archived-sessions'
-    const inject = ['slots', 'locale', 'remote', 'sessions', 'workspaces']
+    const inject = ['remote']
 
     const sessionIdSchema = {
       parse(value) {
@@ -165,7 +165,7 @@ window.__ModuleLoader__.load({
       cancelAria: '取消归档 {name}',
       restoring: '恢复中…',
       restoreFailedTitle: '取消归档失败',
-      restoreFailedDescription: '插件无法更新归档状态。deepseek-ai/deepseek-harness 尚未提供公开的恢复归档 API，可能需要适配当前 Harness 版本。',
+      restoreFailedDescription: '插件无法更新归档状态，请重试。',
       close: '关闭',
     }
 
@@ -180,7 +180,7 @@ window.__ModuleLoader__.load({
       cancelAria: 'Unarchive {name}',
       restoring: 'Restoring…',
       restoreFailedTitle: 'Could not unarchive session',
-      restoreFailedDescription: 'The plugin could not update the archive state. deepseek-ai/deepseek-harness does not expose a public restore API yet, so this Harness version may require a compatibility update.',
+      restoreFailedDescription: 'The plugin could not update the archive state. Please try again.',
       close: 'Close',
     }
 
@@ -283,8 +283,7 @@ window.__ModuleLoader__.load({
       })
     }
 
-    async function apply(ctx) {
-      const disposeRemote = await ctx.remote.$mount(TYPERT_REMOTE)
+    function installArchivedSessionsUi(ctx) {
       ctx.effect(() => ctx.locale.register(NS, { zh, en }), 'desktop-archived-sessions: dictionaries')
       const t = ctx.locale.bind(NS)
       const useSessions = bindSnapshotSelector(ctx.sessions.list)
@@ -305,7 +304,14 @@ window.__ModuleLoader__.load({
         locale: NS,
         inject: () => ({ restore, useSessions, useWorkspaces, t }),
       }, ArchivedSessionsSection))
+    }
 
+    async function apply(ctx) {
+      const disposeRemote = await ctx.remote.$mount(TYPERT_REMOTE)
+      ctx.inject(
+        ['slots', 'locale', 'remote.archivedSessions', 'sessions', 'workspaces'],
+        installArchivedSessionsUi,
+      )
       return disposeRemote
     }
 

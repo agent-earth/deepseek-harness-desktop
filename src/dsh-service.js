@@ -23,7 +23,7 @@ export function resolveWindowsPickerPatch() {
 }
 
 export function resolveDesktopPatch() {
-  return fileURLToPath(new URL('../config/desktop.patch.yml', import.meta.url))
+  return fileURLToPath(new URL('../plugins/archived-sessions/cordis.patch.yml', import.meta.url))
 }
 
 export function resolveDesktopPluginDirectory() {
