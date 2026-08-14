@@ -60,6 +60,10 @@ export function ensureDesktopPluginLink({
   return target
 }
 
+export function resolveWindowsHiddenConsoleLauncher() {
+  return fileURLToPath(new URL('../assets/windows-hidden-console.exe', import.meta.url))
+}
+
 export function buildDshArgs(entry, {
   platform = process.platform,
   desktopPatch = resolveDesktopPatch(),
@@ -80,20 +84,42 @@ export function buildDshArgs(entry, {
   ]
 }
 
+export function buildDshCommand({
+  electronExecutable,
+  entry = resolveDshEntry(),
+  platform = process.platform,
+  desktopPatch = resolveDesktopPatch(),
+  windowsPickerPatch = resolveWindowsPickerPatch(),
+  windowsLauncher = resolveWindowsHiddenConsoleLauncher(),
+} = {}) {
+  if (!electronExecutable) {
+    throw new Error('electronExecutable is required')
+  }
+
+  const args = buildDshArgs(entry, { platform, desktopPatch, windowsPickerPatch })
+  return platform === 'win32'
+    ? { command: windowsLauncher, args: [electronExecutable, ...args] }
+    : { command: electronExecutable, args }
+}
+
 export function startDshService({
   electronExecutable,
   entry = resolveDshEntry(),
   environment = process.env,
   platform = process.platform,
   timeoutMs = 60_000,
+  windowsLauncher = resolveWindowsHiddenConsoleLauncher(),
 } = {}) {
-  if (!electronExecutable) {
-    throw new Error('electronExecutable is required')
-  }
+  const { command, args } = buildDshCommand({
+    electronExecutable,
+    entry,
+    platform,
+    windowsLauncher,
+  })
 
   ensureDesktopPluginLink({ environment, platform })
 
-  const child = spawn(electronExecutable, buildDshArgs(entry, { platform }), {
+  const child = spawn(command, args, {
     env: {
       ...environment,
       ELECTRON_RUN_AS_NODE: '1',

@@ -29,6 +29,7 @@ if (temporaryRoot !== undefined) {
 const service = startDshService({
   electronExecutable,
   entry: path.join(resourcesRoot, 'node_modules', '@deepseek-ai', 'dsh', 'lib', 'bin.js'),
+  windowsLauncher: path.join(resourcesRoot, 'assets', 'windows-hidden-console.exe'),
   environment: {
     ...process.env,
     NODE_OPTIONS: '',
