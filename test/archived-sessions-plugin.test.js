@@ -31,7 +31,7 @@ test('archived sessions page mounts the restore Remote and exposes an unarchive 
 
   assert.match(client, /archivedSessionIds/)
   assert.match(client, /id:\s*'archived-sessions'/)
-  assert.match(client, /cancel:\s*'取消'/)
+  assert.match(client, /cancel:\s*'取消归档'/)
   assert.match(client, /ctx\.remote\.archivedSessions\.restore\(sessionId\)/)
   assert.match(client, /ctx\.remote\.\$mount\(TYPERT_REMOTE\)/)
   assert.match(client, /ctx\.inject\([\s\S]*'remote\.archivedSessions'/)

@@ -52,7 +52,7 @@
     "@deepseek-ai/dsh-timeout": "0.1.0-rc.6",
     "@deepseek-ai/dsh-workspace": "0.1.0-rc.6",
     "@deepseek-ai/dsh-workflow": "0.1.0-rc.6",
-    "dsh-archived-sessions": "https://github.com/smackgg/dsh-archived-sessions/archive/5338483b0deb4f25b5ab764d217fc29563747088.tar.gz"
+    "dsh-archived-sessions": "https://github.com/smackgg/dsh-archived-sessions/archive/78a2ed1a0cdb77a5be59cceb0180b74705213b3f.tar.gz"
   },
   "devDependencies": {
     "electron": "43.4.0",
