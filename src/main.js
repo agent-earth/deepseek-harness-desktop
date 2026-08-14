@@ -13,6 +13,7 @@ import { startDshService } from './dsh-service.js'
 import { applyMacTitleBarStyle } from './mac-titlebar.js'
 import { createWindowOptions } from './window-options.js'
 import { createTrayMenuTemplate, shouldHideWindowOnClose } from './window-lifecycle.js'
+import { applyWebContentStyle } from './web-content-style.js'
 
 const APP_NAME = 'DeepSeek Harness'
 const STARTUP_PAGE = fileURLToPath(new URL('./startup.html', import.meta.url))
@@ -62,6 +63,7 @@ function createWindow() {
   })
 
   mainWindow.webContents.on('did-finish-load', () => {
+    void applyWebContentStyle(mainWindow.webContents)
     if (process.platform === 'darwin') void applyMacTitleBarStyle(mainWindow.webContents)
   })
 
