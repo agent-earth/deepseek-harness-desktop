@@ -38,7 +38,7 @@ test('unpackedPath maps packaged dependencies to Electron unpacked resources', (
   assert.equal(unpackedPath('/workspace/node_modules/@deepseek-ai/dsh/lib/bin.js'), '/workspace/node_modules/@deepseek-ai/dsh/lib/bin.js')
 })
 
-test('buildDshArgs includes the runtime flag required by upstream HMR', () => {
+test('buildDshArgs includes the runtime flag required by upstream HMR and disables browser handoff', () => {
   assert.deepEqual(buildDshArgs('/app/dsh.js', { platform: 'darwin' }), [
     '--expose-internals',
     '/app/dsh.js',
@@ -48,6 +48,7 @@ test('buildDshArgs includes the runtime flag required by upstream HMR', () => {
     '127.0.0.1',
     '--port',
     '0',
+    '--no-open',
   ])
 })
 
@@ -66,6 +67,7 @@ test('buildDshArgs pins the browse directory picker on Windows', () => {
     '127.0.0.1',
     '--port',
     '0',
+    '--no-open',
   ])
   assert.equal(resolveWindowsPickerPatch().endsWith('windows-directory-picker.patch.yml'), true)
 })
@@ -91,6 +93,7 @@ test('buildDshCommand uses the hidden-console launcher on Windows', () => {
       '127.0.0.1',
       '--port',
       '0',
+      '--no-open',
     ],
   })
 })
@@ -111,6 +114,7 @@ test('buildDshCommand starts Electron directly on other platforms', () => {
       '127.0.0.1',
       '--port',
       '0',
+      '--no-open',
     ],
   })
 })

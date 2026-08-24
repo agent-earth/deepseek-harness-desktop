@@ -33,18 +33,18 @@ DeepSeek Harness Desktop 将官方 DeepSeek Harness Web 体验封装为独立桌
 本项目专注于桌面宿主能力，不 fork、不修改、不注入，也不重新实现 Harness UI。模型、会话、设置、插件和 Agent 能力均由官方 `@deepseek-ai/dsh` 提供。
 
 > [!IMPORTANT]
-> 本项目是非官方社区封装，目前仍属于早期版本，并依赖快速演进中的 `@deepseek-ai/dsh@0.1.0-rc.6`。macOS 构建尚未经过 Apple 公证，Windows 构建尚未进行商业代码签名。
+> 本项目是非官方社区封装，目前仍属于早期版本，并依赖快速演进中的 `@deepseek-ai/dsh@0.1.1-rc.2`。macOS 构建尚未经过 Apple 公证，Windows 构建尚未进行商业代码签名。
 
 ## 下载
 
 | 平台 | 架构 | 安装包 | 下载 |
 | --- | --- | --- | --- |
-| macOS | Apple Silicon | DMG | [下载 Apple Silicon 版本](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.4-arm64.dmg) |
-| macOS | Intel | DMG | [下载 Intel 版本](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.4-x64.dmg) |
-| Windows | x64 | 安装程序 | [下载 Windows 安装程序](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.4-windows-x64.exe) |
-| Windows | x64 | 便携 ZIP | [下载 Windows ZIP](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.4-windows-x64.zip) |
-| Linux | x64 | AppImage | [下载 AppImage](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.4-linux-x86_64.AppImage) |
-| Debian / Ubuntu | x64 | deb | [下载 deb](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.4-linux-amd64.deb) |
+| macOS | Apple Silicon | DMG | [下载 Apple Silicon 版本](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-arm64.dmg) |
+| macOS | Intel | DMG | [下载 Intel 版本](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-x64.dmg) |
+| Windows | x64 | 安装程序 | [下载 Windows 安装程序](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-windows-x64.exe) |
+| Windows | x64 | 便携 ZIP | [下载 Windows ZIP](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-windows-x64.zip) |
+| Linux | x64 | AppImage | [下载 AppImage](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-linux-x86_64.AppImage) |
+| Debian / Ubuntu | x64 | deb | [下载 deb](https://github.com/steven-kid/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-linux-amd64.deb) |
 
 全部当前和历史安装包可在 [GitHub Releases](https://github.com/steven-kid/deepseek-harness-desktop/releases) 查看，也可以通过夸克网盘镜像下载：[夸克网盘 - DeepSeek Harness Desktop v0.3.1](https://pan.quark.cn/s/e2dfc232c52d)
 
@@ -149,7 +149,7 @@ DeepSeek Harness Desktop
 
 ## 上游版本与许可
 
-当前固定使用 `@deepseek-ai/dsh@0.1.0-rc.6`，以保证打包结果可复现。
+当前固定使用 `@deepseek-ai/dsh@0.1.1-rc.2`，以保证打包结果可复现。
 
 桌面封装采用 [MIT License](LICENSE)。内置的 DeepSeek Harness 同样采用 MIT License，其许可声明保存在 [`third-party-licenses/deepseek-harness-LICENSE`](third-party-licenses/deepseek-harness-LICENSE)。
 

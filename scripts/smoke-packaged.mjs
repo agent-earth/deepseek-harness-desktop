@@ -37,7 +37,7 @@ function verifyPackagedWindowsNodePty() {
   const script = `
 const path = require('node:path')
 const { loadNativeModule } = require(path.join(${JSON.stringify(nodePtyPath)}, 'lib', 'utils.js'))
-const loaded = ['conpty', 'conpty_console_list', 'pty'].map((name) => {
+const loaded = ['conpty', 'conpty_console_list'].map((name) => {
   const result = loadNativeModule(name)
   return name + '=' + result.dir
 })
