@@ -116,19 +116,19 @@ const translations = {
 const platformConfig = {
   mac: {
     labelKey: "downloadMac",
-    href: "https://github.com/steven-kid/deepseek-harness-desktop/releases/latest",
+    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/latest",
     iconPath:
       "M17.05 12.54c-.02-2.27 1.86-3.37 1.95-3.42a4.2 4.2 0 0 0-3.31-1.79c-1.39-.15-2.74.83-3.45.83-.72 0-1.81-.82-2.98-.8a4.38 4.38 0 0 0-3.69 2.25c-1.6 2.77-.41 6.84 1.12 9.08.76 1.09 1.64 2.31 2.81 2.27 1.14-.05 1.57-.73 2.95-.73 1.36 0 1.77.73 2.96.7 1.23-.02 2-1.1 2.73-2.2a9.08 9.08 0 0 0 1.25-2.55 3.93 3.93 0 0 1-2.34-3.64ZM14.78 5.85a4 4 0 0 0 .92-2.86 4.1 4.1 0 0 0-2.66 1.36 3.8 3.8 0 0 0-.95 2.75 3.39 3.39 0 0 0 2.69-1.25Z",
   },
   windows: {
     labelKey: "downloadWindows",
-    href: "https://github.com/steven-kid/deepseek-harness-desktop/releases/download/v0.3.6/DeepSeek-Harness-Desktop-0.3.6-windows-x64.exe",
+    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.6/DeepSeek-Harness-Desktop-0.3.6-windows-x64.exe",
     iconPath:
       "M2 4.2 10.5 3v8.15H2V4.2Zm9.5-1.34L22 1.35v9.8H11.5V2.86ZM2 12.15h8.5V20.3L2 19.1v-6.95Zm9.5 0H22v9.8l-10.5-1.51v-8.29Z",
   },
   linux: {
     labelKey: "downloadLinux",
-    href: "https://github.com/steven-kid/deepseek-harness-desktop/releases/download/v0.3.6/DeepSeek-Harness-Desktop-0.3.6-linux-x86_64.AppImage",
+    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.6/DeepSeek-Harness-Desktop-0.3.6-linux-x86_64.AppImage",
     iconPath:
       "M12.1 2.1c-2.5 0-3.7 2-3.7 4.6v1.5c-1.8 1.2-3.1 3.7-3.1 6.4 0 3.9 2.8 7.2 6.7 7.2s6.7-3.3 6.7-7.2c0-2.7-1.3-5.2-3.1-6.4V6.7c0-2.6-1.1-4.6-3.5-4.6Zm-1.7 4.7c0-1.8.5-2.8 1.7-2.8 1.1 0 1.6 1 1.6 2.8v.5a7.1 7.1 0 0 0-3.3 0v-.5Zm-1.8 7.4c.6 0 1.1.5 1.1 1.1 0 .6-.5 1.1-1.1 1.1-.6 0-1.1-.5-1.1-1.1 0-.6.5-1.1 1.1-1.1Zm6.8 0c.6 0 1.1.5 1.1 1.1 0 .6-.5 1.1-1.1 1.1-.6 0-1.1-.5-1.1-1.1 0-.6.5-1.1 1.1-1.1Zm-6.3 4c1.8.9 4 .9 5.8 0-.6 1.1-1.7 1.8-2.9 1.8s-2.3-.7-2.9-1.8Z",
   },
@@ -191,7 +191,7 @@ document.querySelectorAll(".language-button").forEach((button) => {
 
 const terminalCommands = {
   download: "$ open DeepSeek-Harness-Desktop*.dmg",
-  source: "$ git clone https://github.com/steven-kid/deepseek-harness-desktop",
+  source: "$ git clone https://github.com/agent-earth/deepseek-harness-desktop",
 };
 
 document.querySelectorAll(".terminal-tab").forEach((button) => {

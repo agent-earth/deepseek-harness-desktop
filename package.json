@@ -11,11 +11,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/steven-kid/deepseek-harness-desktop.git"
+    "url": "git+https://github.com/agent-earth/deepseek-harness-desktop.git"
   },
   "homepage": "https://deepseek-harness-desktop.vercel.app",
   "bugs": {
-    "url": "https://github.com/steven-kid/deepseek-harness-desktop/issues"
+    "url": "https://github.com/agent-earth/deepseek-harness-desktop/issues"
   },
   "scripts": {
     "start": "electron .",
