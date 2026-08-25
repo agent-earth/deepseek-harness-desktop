@@ -21,6 +21,7 @@
     "start": "electron .",
     "test": "node --test test/*.test.js",
     "postinstall": "node scripts/prepare-dependencies.mjs",
+    "sync:upstream": "node scripts/sync-upstream.mjs",
     "prepare:windows": "node scripts/prepare-dependencies.mjs && npm run build:win-launcher",
     "build:win-launcher": "powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-windows-launcher.ps1",
     "test:win-console": "node scripts/test-windows-hidden-console.mjs",

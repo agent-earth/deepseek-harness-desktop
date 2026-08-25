@@ -1,0 +1,63 @@
+name: Sync DeepSeek Harness
+
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Optional @deepseek-ai/dsh version (defaults to npm latest)
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-deepseek-harness
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Check and update upstream packages
+        id: upstream
+        env:
+          DSH_TARGET_VERSION: ${{ inputs.version }}
+        run: npm run sync:upstream
+      - name: Install and test
+        if: steps.upstream.outputs.updated == 'true'
+        run: |
+          npm ci
+          npm test
+      - name: Create update pull request
+        if: steps.upstream.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/update-dsh-${{ steps.upstream.outputs.target_version }}
+          delete-branch: true
+          commit-message: |
+            chore: update DeepSeek Harness to ${{ steps.upstream.outputs.target_version }}
+
+            Co-authored-by: TRAE CLI <noreply@bytedance.com>
+          title: Update DeepSeek Harness to ${{ steps.upstream.outputs.target_version }}
+          body: |
+            ## Summary
+
+            - Updates the explicitly packaged DeepSeek Harness dependencies from `${{ steps.upstream.outputs.current_version }}` to `${{ steps.upstream.outputs.target_version }}`
+            - Regenerates `package-lock.json`
+            - Updates the documented upstream version
+
+            ## Validation
+
+            - `npm ci`
+            - `npm test`
+
+            This workflow intentionally creates a pull request instead of publishing desktop installers automatically. After review and cross-platform release validation, merge this PR, bump the desktop patch version, and publish through the existing tag-based release workflow.
