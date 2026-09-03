@@ -39,12 +39,12 @@ This project focuses on desktop hosting. It does not fork, modify, inject into, 
 
 | Platform | Architecture | Package | Download |
 | --- | --- | --- | --- |
-| macOS | Apple Silicon | DMG | [Download for Apple Silicon](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-arm64.dmg) |
-| macOS | Intel | DMG | [Download for Intel Mac](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-x64.dmg) |
-| Windows | x64 | Setup installer | [Download Windows installer](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-windows-x64.exe) |
-| Windows | x64 | Portable ZIP | [Download Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-windows-x64.zip) |
-| Linux | x64 | AppImage | [Download AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-linux-x86_64.AppImage) |
-| Debian / Ubuntu | x64 | deb | [Download deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-linux-amd64.deb) |
+| macOS | Apple Silicon | DMG | [Download for Apple Silicon](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-arm64.dmg) |
+| macOS | Intel | DMG | [Download for Intel Mac](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-x64.dmg) |
+| Windows | x64 | Setup installer | [Download Windows installer](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-windows-x64.exe) |
+| Windows | x64 | Portable ZIP | [Download Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-windows-x64.zip) |
+| Linux | x64 | AppImage | [Download AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-linux-x86_64.AppImage) |
+| Debian / Ubuntu | x64 | deb | [Download deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-linux-amd64.deb) |
 
 All current and historical packages are available on the [GitHub Releases page](https://github.com/agent-earth/deepseek-harness-desktop/releases), and you can also download from the Quark Drive mirror: [Quark Drive - DeepSeek Harness Desktop v0.3.1](https://pan.quark.cn/s/e2dfc232c52d)
 
@@ -64,6 +64,7 @@ DeepSeek Harness already provides the complete agent runtime and Web UI. This pr
 - Opens the official Harness interface as soon as the local service is ready
 - Shows a lightweight loading screen while the local Harness service starts
 - Keeps running in the system tray when the main window is closed
+- Opens the active local Harness URL in the system browser from the tray menu
 - Preserves the complete settings, models, sessions, plugins, and agent experience
 - Gracefully terminates the Harness child process on application exit
 - Listens only on a random local loopback port
@@ -72,6 +73,7 @@ DeepSeek Harness already provides the complete agent runtime and Web UI. This pr
 - Provides a Windows x64 installer and portable ZIP
 - Provides Linux x64 AppImage and deb packages
 - Uses the official in-app directory browser on Windows to avoid packaged native-dialog worker failures
+- Reserves a draggable Windows title bar so native window controls do not cover Harness content
 - Removes the default Electron File, Edit, View, and Window menu bar on Windows
 
 ## Installation

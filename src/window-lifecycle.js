@@ -5,6 +5,7 @@ export function shouldHideWindowOnClose(isQuitting, hasTray = true) {
 export function createTrayMenuTemplate({
   locale = 'en',
   showWindow,
+  openInBrowser,
   hideWindow,
   quit,
 }) {
@@ -14,6 +15,10 @@ export function createTrayMenuTemplate({
     {
       label: isChinese ? '打开 DeepSeek Harness' : 'Open DeepSeek Harness',
       click: showWindow,
+    },
+    {
+      label: isChinese ? '在浏览器中打开' : 'Open in Browser',
+      click: openInBrowser,
     },
     {
       label: isChinese ? '隐藏窗口' : 'Hide Window',

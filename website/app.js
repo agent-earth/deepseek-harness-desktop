@@ -54,7 +54,7 @@ const platformConfig = {
   },
   windows: {
     labelKey: "downloadWindows",
-    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.6/DeepSeek-Harness-Desktop-0.3.6-windows-x64.exe",
+    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.7/DeepSeek-Harness-Desktop-0.3.7-windows-x64.exe",
     iconPath:
       "M2 4.2 10.5 3v8.15H2V4.2Zm9.5-1.34L22 1.35v9.8H11.5V2.86ZM2 12.15h8.5V20.3L2 19.1v-6.95Zm9.5 0H22v9.8l-10.5-1.51v-8.29Z",
   },

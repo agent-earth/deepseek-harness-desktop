@@ -39,12 +39,12 @@ DeepSeek Harness Desktop 将官方 DeepSeek Harness Web 体验封装为独立桌
 
 | 平台 | 架构 | 安装包 | 下载 |
 | --- | --- | --- | --- |
-| macOS | Apple Silicon | DMG | [下载 Apple Silicon 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-arm64.dmg) |
-| macOS | Intel | DMG | [下载 Intel 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-x64.dmg) |
-| Windows | x64 | 安装程序 | [下载 Windows 安装程序](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-windows-x64.exe) |
-| Windows | x64 | 便携 ZIP | [下载 Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-windows-x64.zip) |
-| Linux | x64 | AppImage | [下载 AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-linux-x86_64.AppImage) |
-| Debian / Ubuntu | x64 | deb | [下载 deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.6-linux-amd64.deb) |
+| macOS | Apple Silicon | DMG | [下载 Apple Silicon 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-arm64.dmg) |
+| macOS | Intel | DMG | [下载 Intel 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-x64.dmg) |
+| Windows | x64 | 安装程序 | [下载 Windows 安装程序](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-windows-x64.exe) |
+| Windows | x64 | 便携 ZIP | [下载 Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-windows-x64.zip) |
+| Linux | x64 | AppImage | [下载 AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-linux-x86_64.AppImage) |
+| Debian / Ubuntu | x64 | deb | [下载 deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-linux-amd64.deb) |
 
 全部当前和历史安装包可在 [GitHub Releases](https://github.com/agent-earth/deepseek-harness-desktop/releases) 查看，也可以通过夸克网盘镜像下载：[夸克网盘 - DeepSeek Harness Desktop v0.3.1](https://pan.quark.cn/s/e2dfc232c52d)
 
@@ -64,6 +64,7 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 - Harness 就绪后直接进入官方界面，无额外操作步骤
 - 启动 Harness 服务时显示轻量等待界面，不再出现无响应感
 - 支持系统托盘驻留，关闭主窗口后可继续在后台运行
+- 可通过托盘菜单在系统浏览器中打开当前本地 Harness 地址
 - 保留完整的设置、模型、会话、插件和 Agent 能力
 - 应用退出时自动终止 Harness 子进程
 - Web 服务仅监听随机本地回环端口，不暴露到局域网
@@ -72,6 +73,7 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 - Windows 支持 x64 安装程序与便携 ZIP
 - Linux 支持 x64 AppImage 和 deb
 - Windows 使用官方应用内目录浏览器，避免打包环境下的原生文件夹对话框异常
+- Windows 预留可拖动标题栏，避免原生窗口按钮遮挡 Harness 内容
 - Windows 隐藏 Electron 默认的 File、Edit、View 和 Window 菜单栏
 
 ## 安装说明
