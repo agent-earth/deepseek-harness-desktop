@@ -44,7 +44,7 @@ This project focuses on desktop hosting. It does not fork, modify, inject into, 
 | Windows | x64 | Setup installer | [Download Windows installer](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-windows-x64.exe) |
 | Windows | x64 | Portable ZIP | [Download Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-windows-x64.zip) |
 | Linux | x64 | AppImage | [Download AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-linux-x86_64.AppImage) |
-| Debian / Ubuntu | x64 | deb | [Download deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-linux-amd64.deb) |
+| Debian / Ubuntu | x64 | deb | [Download deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.6/DeepSeek-Harness-Desktop-0.3.6-linux-amd64.deb) |
 
 All current and historical packages are available on the [GitHub Releases page](https://github.com/agent-earth/deepseek-harness-desktop/releases), and you can also download from the Quark Drive mirror: [Quark Drive - DeepSeek Harness Desktop v0.3.1](https://pan.quark.cn/s/e2dfc232c52d)
 
