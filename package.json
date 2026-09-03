@@ -71,7 +71,6 @@
     "files": [
       "src/**/*",
       "config/**/*",
-      "assets/icon.png",
       "assets/tray.png",
       "assets/trayTemplate.png",
       "assets/trayTemplate@2x.png",
