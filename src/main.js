@@ -13,6 +13,7 @@ import { startDshService } from './dsh-service.js'
 import { applyMacTitleBarStyle } from './mac-titlebar.js'
 import { createWindowOptions } from './window-options.js'
 import { createTrayMenuTemplate, shouldHideWindowOnClose } from './window-lifecycle.js'
+import { applyWindowsTitleBarStyle } from './windows-titlebar.js'
 
 const APP_NAME = 'DeepSeek Harness'
 const STARTUP_PAGE = fileURLToPath(new URL('./startup.html', import.meta.url))
@@ -36,6 +37,15 @@ async function showMainWindow() {
   if (mainWindow.isMinimized()) mainWindow.restore()
   mainWindow.show()
   mainWindow.focus()
+}
+
+async function openInBrowser() {
+  try {
+    const url = serviceUrl ?? await service?.ready
+    if (url) await shell.openExternal(url)
+  } catch (error) {
+    console.warn(`Could not open Harness in the browser: ${error instanceof Error ? error.message : String(error)}`)
+  }
 }
 
 function createWindow() {
@@ -63,6 +73,7 @@ function createWindow() {
 
   mainWindow.webContents.on('did-finish-load', () => {
     if (process.platform === 'darwin') void applyMacTitleBarStyle(mainWindow.webContents)
+    if (process.platform === 'win32') void applyWindowsTitleBarStyle(mainWindow.webContents)
   })
 
   mainWindow.once('ready-to-show', () => mainWindow?.show())
@@ -88,6 +99,7 @@ function createTray() {
   tray.setContextMenu(Menu.buildFromTemplate(createTrayMenuTemplate({
     locale: app.getLocale(),
     showWindow: () => void showMainWindow(),
+    openInBrowser: () => void openInBrowser(),
     hideWindow: () => mainWindow?.hide(),
     quit: () => {
       isQuitting = true
