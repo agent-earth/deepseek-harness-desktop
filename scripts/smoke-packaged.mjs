@@ -141,10 +141,27 @@ try {
   if (!html.includes('__DSH_BOOT__')) {
     throw new Error('Packaged DeepSeek Harness did not return its Web UI')
   }
+  if (!html.includes('dshmarket/client')) {
+    throw new Error('Packaged app did not inject the plugin market client')
+  }
+  const marketResponse = await fetch(`${url}/dsh-market/status`)
+  if (!marketResponse.ok) {
+    throw new Error(`Packaged plugin market returned HTTP ${marketResponse.status}`)
+  }
+  const marketStatus = await marketResponse.json()
+  if (marketStatus.version !== '1.40.0') {
+    throw new Error(`Packaged plugin market has unexpected version ${String(marketStatus.version)}`)
+  }
+  if (marketStatus.restart !== false) {
+    throw new Error('Packaged plugin market must delegate restarts to the desktop host')
+  }
+  if (marketStatus.pnpm !== true) {
+    throw new Error('Packaged plugin market could not use the bundled pnpm runtime')
+  }
   if (process.platform === 'win32' && !html.includes('@deepseek-ai/dsh-client-ui-directory-picker-browse')) {
     throw new Error('Packaged Windows app did not mount the browse directory picker')
   }
-  console.log(`packaged smoke: ${response.status} ${url}`)
+  console.log(`packaged smoke: ${response.status} ${url}, dshmarket ${marketStatus.version}, pnpm ready`)
 } finally {
   service.stop()
   if (service.child.exitCode === null) {

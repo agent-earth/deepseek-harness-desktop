@@ -11,8 +11,10 @@ const apiProxyPath = path.join(
   'lib',
   'index.js',
 )
+const dshManifestPath = path.join(root, 'node_modules', '@deepseek-ai', 'dsh', 'package.json')
 const windowsNodePath = path.join(root, 'assets', 'dsh-node.exe')
 const nodeLicensePath = path.join(root, 'third-party-licenses', 'nodejs-LICENSE')
+const DSH_MARKET_VERSION = '1.40.0'
 
 const ORIGINAL_WINDOWS_OPENER = `async function openWindowsPath(path, signal, run) {
 \tawait run("powershell.exe", [
@@ -55,6 +57,22 @@ export function prepareApiProxy(target = apiProxyPath) {
   if (patched !== source) writeFileSync(target, patched)
 }
 
+export function patchDshManifest(source) {
+  const manifest = JSON.parse(source)
+  if (manifest.name !== '@deepseek-ai/dsh' || typeof manifest.dependencies !== 'object') {
+    throw new Error('Expected the @deepseek-ai/dsh package manifest')
+  }
+  if (manifest.dependencies.dshmarket === DSH_MARKET_VERSION) return source
+  manifest.dependencies.dshmarket = DSH_MARKET_VERSION
+  return `${JSON.stringify(manifest, null, 2)}\n`
+}
+
+export function prepareDshManifest(target = dshManifestPath) {
+  const source = readFileSync(target, 'utf8')
+  const patched = patchDshManifest(source)
+  if (patched !== source) writeFileSync(target, patched)
+}
+
 export function findNodeLicense(executablePath = process.execPath) {
   const executableDirectory = path.dirname(executablePath)
   const candidates = [
@@ -89,5 +107,6 @@ function isMainModule() {
 
 if (isMainModule()) {
   prepareApiProxy()
+  prepareDshManifest()
   prepareWindowsNode()
 }

@@ -1,4 +1,5 @@
 import { spawn } from 'node:child_process'
+import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const READY_PATTERN = /^dsh web: (http:\/\/127\.0\.0\.1:\d+)\b/m
@@ -15,6 +16,18 @@ export function extractReadyUrl(output) {
   return READY_PATTERN.exec(output)?.[1]
 }
 
+export function resolvePluginMarketPatch() {
+  return fileURLToPath(new URL('../config/plugin-market.patch.yml', import.meta.url))
+}
+
+export function resolveBundledToolDirectory() {
+  return fileURLToPath(new URL('../assets/bin', import.meta.url))
+}
+
+export function resolveBundledPnpmEntry() {
+  return unpackedPath(fileURLToPath(new URL('../node_modules/pnpm/bin/pnpm.cjs', import.meta.url)))
+}
+
 export function resolveWindowsPickerPatch() {
   return fileURLToPath(new URL('../config/windows-directory-picker.patch.yml', import.meta.url))
 }
@@ -29,6 +42,7 @@ export function resolveWindowsNodeExecutable() {
 
 export function buildDshArgs(entry, {
   platform = process.platform,
+  pluginMarketPatch = resolvePluginMarketPatch(),
   windowsPickerPatch = resolveWindowsPickerPatch(),
 } = {}) {
   return [
@@ -36,6 +50,8 @@ export function buildDshArgs(entry, {
     entry,
     '--profile',
     'web',
+    '--patch',
+    pluginMarketPatch,
     ...(platform === 'win32' ? ['--patch', windowsPickerPatch] : []),
     '--host',
     '127.0.0.1',
@@ -62,6 +78,25 @@ export function buildDshCommand({
     : { command: electronExecutable, args }
 }
 
+export function buildDshEnvironment(environment, {
+  platform = process.platform,
+  nodeExecutable,
+  bundledToolDirectory = resolveBundledToolDirectory(),
+  bundledPnpmEntry = resolveBundledPnpmEntry(),
+} = {}) {
+  const pathKey = platform === 'win32'
+    ? Object.keys(environment).find((key) => key.toLowerCase() === 'path') ?? 'Path'
+    : 'PATH'
+  const separator = platform === 'win32' ? ';' : path.delimiter
+  return {
+    ...environment,
+    [pathKey]: [bundledToolDirectory, environment[pathKey]].filter(Boolean).join(separator),
+    DSH_DESKTOP_NODE_EXECUTABLE: nodeExecutable,
+    DSH_DESKTOP_PNPM_CLI: bundledPnpmEntry,
+    ...(platform === 'win32' ? {} : { ELECTRON_RUN_AS_NODE: '1' }),
+  }
+}
+
 export function startDshService({
   electronExecutable,
   entry = resolveDshEntry(),
@@ -80,10 +115,10 @@ export function startDshService({
   })
 
   const child = spawn(command, args, {
-    env: {
-      ...environment,
-      ...(platform === 'win32' ? {} : { ELECTRON_RUN_AS_NODE: '1' }),
-    },
+    env: buildDshEnvironment(environment, {
+      platform,
+      nodeExecutable: platform === 'win32' ? windowsNodeExecutable : electronExecutable,
+    }),
     stdio: ['ignore', 'pipe', 'pipe'],
   })
 

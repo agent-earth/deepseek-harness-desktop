@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
   encodeWindowsOpenCommand,
+  patchDshManifest,
   patchWindowsPathOpener,
 } from '../scripts/prepare-dependencies.mjs'
 
@@ -34,4 +35,19 @@ test('dependency patch fails loudly when upstream implementation drifts', () => 
     () => patchWindowsPathOpener('async function openWindowsPath() {}'),
     /Expected exactly one/,
   )
+})
+
+test('DSH dependency fallback includes the bundled plugin market', () => {
+  const source = JSON.stringify({
+    name: '@deepseek-ai/dsh',
+    dependencies: {
+      commander: '^15.0.0',
+    },
+  }, null, 2)
+  const patched = patchDshManifest(source)
+  assert.deepEqual(JSON.parse(patched).dependencies, {
+    commander: '^15.0.0',
+    dshmarket: '1.40.0',
+  })
+  assert.equal(patchDshManifest(patched), patched)
 })

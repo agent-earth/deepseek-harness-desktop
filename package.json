@@ -1,6 +1,6 @@
 {
   "name": "deepseek-harness-desktop",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "An unofficial desktop wrapper for DeepSeek Harness.",
   "type": "module",
   "main": "src/main.js",
@@ -54,7 +54,9 @@
     "@deepseek-ai/dsh-subagent-in-process-driver": "0.1.1-rc.2",
     "@deepseek-ai/dsh-subprocess": "0.1.1-rc.2",
     "@deepseek-ai/dsh-timeout": "0.1.1-rc.2",
-    "@deepseek-ai/dsh-workflow": "0.1.1-rc.2"
+    "@deepseek-ai/dsh-workflow": "0.1.1-rc.2",
+    "dshmarket": "1.40.0",
+    "pnpm": "10.34.5"
   },
   "devDependencies": {
     "electron": "43.4.0",
@@ -73,6 +75,7 @@
       "assets/tray.png",
       "assets/trayTemplate.png",
       "assets/trayTemplate@2x.png",
+      "assets/bin/**/*",
       "assets/dsh-node.exe",
       "assets/windows-hidden-console.exe",
       "package.json",

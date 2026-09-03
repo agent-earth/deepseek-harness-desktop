@@ -9,7 +9,7 @@ const translations = {
     heroParagraphOne:
       "将官方 DeepSeek Harness 完整封装为桌面应用，无需命令行，也无需手动管理端口。",
     heroParagraphTwo:
-      "保留模型、工具、技能、会话、沙箱、存储和插件等全部能力，打开应用即可开始工作。",
+      "保留模型、工具、技能、会话、沙箱和存储等全部能力，并内置 awesome-dsh-plugin 社区插件市场。",
     downloadMac: "下载 macOS 版",
     downloadWindows: "下载 Windows 版",
     downloadLinux: "下载 Linux 版",
@@ -24,9 +24,9 @@ const translations = {
     capabilityOneTitle: "原生桌面封装",
     capabilityOneDescription:
       "保留官方 Web UI 与 Harness 内核，只增加桌面窗口、生命周期和系统集成。",
-    capabilityTwoTitle: "自动启动服务",
+    capabilityTwoTitle: "内置插件市场",
     capabilityTwoDescription:
-      "自动选择可用端口、启动本地服务并加载界面，不再维护终端进程。",
+      "直接浏览、搜索、安装、更新和卸载社区插件，无需另行配置 pnpm。",
     capabilityThreeTitle: "跨平台发布",
     capabilityThreeDescription:
       "提供 Apple Silicon、Intel Mac、Windows x64 与 Linux x64 安装包。",
@@ -65,7 +65,7 @@ const translations = {
     heroParagraphOne:
       "The official DeepSeek Harness, packaged as a desktop app. No terminal and no port management required.",
     heroParagraphTwo:
-      "Models, tools, skills, sessions, sandboxes, storage, and plugins all remain intact. Open the app and start working.",
+      "Models, tools, skills, sessions, sandboxes, and storage remain intact, with the awesome-dsh-plugin community market built in.",
     downloadMac: "Download for macOS",
     downloadWindows: "Download for Windows",
     downloadLinux: "Download for Linux",
@@ -80,9 +80,9 @@ const translations = {
     capabilityOneTitle: "Native desktop shell",
     capabilityOneDescription:
       "The official Web UI and Harness runtime remain intact. Only desktop windows, lifecycle, and system integration are added.",
-    capabilityTwoTitle: "Automatic runtime",
+    capabilityTwoTitle: "Built-in plugin market",
     capabilityTwoDescription:
-      "Selects an available port, starts the local service, and loads the UI without terminal process management.",
+      "Browse, search, install, update, and remove community plugins without setting up pnpm separately.",
     capabilityThreeTitle: "Cross-platform releases",
     capabilityThreeDescription:
       "Packages for Apple Silicon, Intel Mac, Windows x64, and Linux x64.",
@@ -122,13 +122,13 @@ const platformConfig = {
   },
   windows: {
     labelKey: "downloadWindows",
-    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.7/DeepSeek-Harness-Desktop-0.3.7-windows-x64.exe",
+    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.8/DeepSeek-Harness-Desktop-0.3.8-windows-x64.exe",
     iconPath:
       "M2 4.2 10.5 3v8.15H2V4.2Zm9.5-1.34L22 1.35v9.8H11.5V2.86ZM2 12.15h8.5V20.3L2 19.1v-6.95Zm9.5 0H22v9.8l-10.5-1.51v-8.29Z",
   },
   linux: {
     labelKey: "downloadLinux",
-    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.7/DeepSeek-Harness-Desktop-0.3.7-linux-x86_64.AppImage",
+    href: "https://github.com/agent-earth/deepseek-harness-desktop/releases/download/v0.3.8/DeepSeek-Harness-Desktop-0.3.8-linux-x86_64.AppImage",
     iconPath:
       "M12.1 2.1c-2.5 0-3.7 2-3.7 4.6v1.5c-1.8 1.2-3.1 3.7-3.1 6.4 0 3.9 2.8 7.2 6.7 7.2s6.7-3.3 6.7-7.2c0-2.7-1.3-5.2-3.1-6.4V6.7c0-2.6-1.1-4.6-3.5-4.6Zm-1.7 4.7c0-1.8.5-2.8 1.7-2.8 1.1 0 1.6 1 1.6 2.8v.5a7.1 7.1 0 0 0-3.3 0v-.5Zm-1.8 7.4c.6 0 1.1.5 1.1 1.1 0 .6-.5 1.1-1.1 1.1-.6 0-1.1-.5-1.1-1.1 0-.6.5-1.1 1.1-1.1Zm6.8 0c.6 0 1.1.5 1.1 1.1 0 .6-.5 1.1-1.1 1.1-.6 0-1.1-.5-1.1-1.1 0-.6.5-1.1 1.1-1.1Zm-6.3 4c1.8.9 4 .9 5.8 0-.6 1.1-1.7 1.8-2.9 1.8s-2.3-.7-2.9-1.8Z",
   },

@@ -2,10 +2,14 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import path from 'node:path'
 import {
+  buildDshEnvironment,
   buildDshCommand,
   buildDshArgs,
   extractReadyUrl,
   resolveDshEntry,
+  resolvePluginMarketPatch,
+  resolveBundledPnpmEntry,
+  resolveBundledToolDirectory,
   resolveWindowsHiddenConsoleLauncher,
   resolveWindowsNodeExecutable,
   resolveWindowsPickerPatch,
@@ -39,11 +43,16 @@ test('unpackedPath maps packaged dependencies to Electron unpacked resources', (
 })
 
 test('buildDshArgs includes the runtime flag required by upstream HMR and disables browser handoff', () => {
-  assert.deepEqual(buildDshArgs('/app/dsh.js', { platform: 'darwin' }), [
+  assert.deepEqual(buildDshArgs('/app/dsh.js', {
+    platform: 'darwin',
+    pluginMarketPatch: '/app/plugin-market.yml',
+  }), [
     '--expose-internals',
     '/app/dsh.js',
     '--profile',
     'web',
+    '--patch',
+    '/app/plugin-market.yml',
     '--host',
     '127.0.0.1',
     '--port',
@@ -55,12 +64,15 @@ test('buildDshArgs includes the runtime flag required by upstream HMR and disabl
 test('buildDshArgs pins the browse directory picker on Windows', () => {
   assert.deepEqual(buildDshArgs('C:\\app\\dsh.js', {
     platform: 'win32',
+    pluginMarketPatch: 'C:\\app\\plugin-market.yml',
     windowsPickerPatch: 'C:\\app\\windows-picker.yml',
   }), [
     '--expose-internals',
     'C:\\app\\dsh.js',
     '--profile',
     'web',
+    '--patch',
+    'C:\\app\\plugin-market.yml',
     '--patch',
     'C:\\app\\windows-picker.yml',
     '--host',
@@ -69,6 +81,7 @@ test('buildDshArgs pins the browse directory picker on Windows', () => {
     '0',
     '--no-open',
   ])
+  assert.equal(resolvePluginMarketPatch().endsWith('plugin-market.patch.yml'), true)
   assert.equal(resolveWindowsPickerPatch().endsWith('windows-directory-picker.patch.yml'), true)
 })
 
@@ -87,6 +100,8 @@ test('buildDshCommand uses the hidden-console launcher on Windows', () => {
       'C:\\app\\dsh.js',
       '--profile',
       'web',
+      '--patch',
+      resolvePluginMarketPatch(),
       '--patch',
       resolveWindowsPickerPatch(),
       '--host',
@@ -110,6 +125,8 @@ test('buildDshCommand starts Electron directly on other platforms', () => {
       '/app/dsh.js',
       '--profile',
       'web',
+      '--patch',
+      resolvePluginMarketPatch(),
       '--host',
       '127.0.0.1',
       '--port',
@@ -117,6 +134,44 @@ test('buildDshCommand starts Electron directly on other platforms', () => {
       '--no-open',
     ],
   })
+})
+
+test('buildDshEnvironment exposes the bundled pnpm wrapper on macOS and Linux', () => {
+  assert.deepEqual(buildDshEnvironment({
+    PATH: '/usr/bin',
+    NODE_OPTIONS: '--trace-warnings',
+  }, {
+    platform: 'darwin',
+    nodeExecutable: '/app/DeepSeek Harness',
+    bundledToolDirectory: '/app/assets/bin',
+    bundledPnpmEntry: '/app/node_modules/pnpm/bin/pnpm.cjs',
+  }), {
+    PATH: '/app/assets/bin:/usr/bin',
+    NODE_OPTIONS: '--trace-warnings',
+    DSH_DESKTOP_NODE_EXECUTABLE: '/app/DeepSeek Harness',
+    DSH_DESKTOP_PNPM_CLI: '/app/node_modules/pnpm/bin/pnpm.cjs',
+    ELECTRON_RUN_AS_NODE: '1',
+  })
+})
+
+test('buildDshEnvironment exposes the bundled pnpm wrapper on Windows', () => {
+  assert.deepEqual(buildDshEnvironment({
+    Path: 'C:\\Windows\\System32',
+  }, {
+    platform: 'win32',
+    nodeExecutable: 'C:\\app\\dsh-node.exe',
+    bundledToolDirectory: 'C:\\app\\assets\\bin',
+    bundledPnpmEntry: 'C:\\app\\node_modules\\pnpm\\bin\\pnpm.cjs',
+  }), {
+    Path: 'C:\\app\\assets\\bin;C:\\Windows\\System32',
+    DSH_DESKTOP_NODE_EXECUTABLE: 'C:\\app\\dsh-node.exe',
+    DSH_DESKTOP_PNPM_CLI: 'C:\\app\\node_modules\\pnpm\\bin\\pnpm.cjs',
+  })
+})
+
+test('bundled pnpm paths point to packaged runtime assets', () => {
+  assert.equal(resolveBundledToolDirectory().endsWith(path.join('assets', 'bin')), true)
+  assert.equal(resolveBundledPnpmEntry().endsWith(path.join('node_modules', 'pnpm', 'bin', 'pnpm.cjs')), true)
 })
 
 test('resolveWindowsHiddenConsoleLauncher points to the packaged launcher', () => {

@@ -39,12 +39,12 @@ DeepSeek Harness Desktop 将官方 DeepSeek Harness Web 体验封装为独立桌
 
 | 平台 | 架构 | 安装包 | 下载 |
 | --- | --- | --- | --- |
-| macOS | Apple Silicon | DMG | [下载 Apple Silicon 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-arm64.dmg) |
-| macOS | Intel | DMG | [下载 Intel 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-x64.dmg) |
-| Windows | x64 | 安装程序 | [下载 Windows 安装程序](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-windows-x64.exe) |
-| Windows | x64 | 便携 ZIP | [下载 Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-windows-x64.zip) |
-| Linux | x64 | AppImage | [下载 AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-linux-x86_64.AppImage) |
-| Debian / Ubuntu | x64 | deb | [下载 deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.7-linux-amd64.deb) |
+| macOS | Apple Silicon | DMG | [下载 Apple Silicon 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-arm64.dmg) |
+| macOS | Intel | DMG | [下载 Intel 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-x64.dmg) |
+| Windows | x64 | 安装程序 | [下载 Windows 安装程序](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-windows-x64.exe) |
+| Windows | x64 | 便携 ZIP | [下载 Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-windows-x64.zip) |
+| Linux | x64 | AppImage | [下载 AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-linux-x86_64.AppImage) |
+| Debian / Ubuntu | x64 | deb | [下载 deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-linux-amd64.deb) |
 
 全部当前和历史安装包可在 [GitHub Releases](https://github.com/agent-earth/deepseek-harness-desktop/releases) 查看，也可以通过夸克网盘镜像下载：[夸克网盘 - DeepSeek Harness Desktop v0.3.1](https://pan.quark.cn/s/e2dfc232c52d)
 
@@ -63,6 +63,8 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 
 - Harness 就绪后直接进入官方界面，无额外操作步骤
 - 启动 Harness 服务时显示轻量等待界面，不再出现无响应感
+- 内置“设置 → Plugin Market”，由 [dsh-market](https://github.com/dsh-market/dsh-market) 与经过整理的 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 目录提供
+- 随应用提供 pnpm，可直接安装、更新和卸载目录中的插件，无需另行配置 Node.js 工具链
 - 支持系统托盘驻留，关闭主窗口后可继续在后台运行
 - 可通过托盘菜单在系统浏览器中打开当前本地 Harness 地址
 - 保留完整的设置、模型、会话、插件和 Agent 能力
@@ -75,6 +77,15 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 - Windows 使用官方应用内目录浏览器，避免打包环境下的原生文件夹对话框异常
 - Windows 预留可拖动标题栏，避免原生窗口按钮遮挡 Harness 内容
 - Windows 隐藏 Electron 默认的 File、Edit、View 和 Window 菜单栏
+
+## 插件市场
+
+打开“**设置 → Plugin Market**”即可浏览和搜索社区插件，查看插件来源，并执行安装、更新、停用或卸载。插件目录实时读取自 [awesome-dsh-plugin.com](https://awesome-dsh-plugin.com)，插件变更仍通过官方 `dsh plugin --profile web` 流程完成，并保存在本机 DSH profile 中。
+
+桌面安装包内置 `dshmarket@1.40.0` 和兼容的 pnpm 运行时。由于应用生命周期由桌面宿主管理，市场内的一键进程重启已关闭；当插件提示需要重启时，请刷新页面或重新启动 DeepSeek Harness Desktop。
+
+> [!WARNING]
+> 目录中的插件是社区维护的第三方代码，不代表 DeepSeek 或本项目的背书。插件安装后会以当前用户权限在本机运行，并可能访问 Harness 可访问的数据。安装前请检查源码、发布者、权限和构建脚本提示。
 
 ## 安装说明
 
@@ -111,6 +122,8 @@ Windows 安装包尚未进行商业代码签名。如果 Microsoft Defender Smar
 - 新窗口和跨域导航交由系统浏览器处理
 - Harness 在独立的 Electron Node 子进程中运行
 - Cordis HMR 所需的 `--expose-internals` 只授予 Harness 子进程，不暴露给 Renderer
+- 插件市场的写操作要求同源请求，安装来源限制为经过整理的目录
+- 第三方插件安装后仍会以当前用户权限执行
 
 ## 运行架构
 
@@ -153,6 +166,6 @@ DeepSeek Harness Desktop
 
 当前固定使用 `@deepseek-ai/dsh@0.1.1-rc.2`，以保证打包结果可复现。
 
-桌面封装采用 [MIT License](LICENSE)。内置的 DeepSeek Harness 同样采用 MIT License，其许可声明保存在 [`third-party-licenses/deepseek-harness-LICENSE`](third-party-licenses/deepseek-harness-LICENSE)。
+桌面封装采用 [MIT License](LICENSE)。内置的 DeepSeek Harness、dsh-market 与 pnpm 同样采用 MIT License，其许可声明保存在 [`third-party-licenses`](third-party-licenses)。
 
 本项目与 DeepSeek 不存在隶属或官方合作关系。DeepSeek Harness 及相关名称的权利归其各自所有者所有。应用图标使用上游 DeepSeek Harness Web favicon 中的黑色鲸鱼图案。
