@@ -91,11 +91,13 @@ jobs:
       - linux
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           pattern: '*'
           merge-multiple: true
           path: dist
+      - run: npm run prepare:release-assets
       - uses: softprops/action-gh-release@v2
         with:
           files: |

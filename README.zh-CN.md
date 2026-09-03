@@ -39,12 +39,12 @@ DeepSeek Harness Desktop 将官方 DeepSeek Harness Web 体验封装为独立桌
 
 | 平台 | 架构 | 安装包 | 下载 |
 | --- | --- | --- | --- |
-| macOS | Apple Silicon | DMG | [下载 Apple Silicon 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-arm64.dmg) |
-| macOS | Intel | DMG | [下载 Intel 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-x64.dmg) |
-| Windows | x64 | 安装程序 | [下载 Windows 安装程序](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-windows-x64.exe) |
-| Windows | x64 | 便携 ZIP | [下载 Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-windows-x64.zip) |
-| Linux | x64 | AppImage | [下载 AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-linux-x86_64.AppImage) |
-| Debian / Ubuntu | x64 | deb | [下载 deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-linux-amd64.deb) |
+| macOS | Apple Silicon | DMG | [下载 Apple Silicon 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-arm64.dmg) |
+| macOS | Intel | DMG | [下载 Intel 版本](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-x64.dmg) |
+| Windows | x64 | 安装程序 | [下载 Windows 安装程序](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-windows-x64.exe) |
+| Windows | x64 | 便携 ZIP | [下载 Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-windows-x64.zip) |
+| Linux | x64 | AppImage | [下载 AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-linux-x86_64.AppImage) |
+| Debian / Ubuntu | x64 | deb | [下载 deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-linux-amd64.deb) |
 
 全部当前和历史安装包可在 [GitHub Releases](https://github.com/agent-earth/deepseek-harness-desktop/releases) 查看，也可以通过夸克网盘镜像下载：[夸克网盘 - DeepSeek Harness Desktop v0.3.1](https://pan.quark.cn/s/e2dfc232c52d)
 
@@ -83,6 +83,12 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 打开“**设置 → Plugin Market**”即可浏览和搜索社区插件，查看插件来源，并执行安装、更新、停用或卸载。插件目录实时读取自 [awesome-dsh-plugin.com](https://awesome-dsh-plugin.com)，插件变更仍通过官方 `dsh plugin --profile web` 流程完成，并保存在本机 DSH profile 中。
 
 桌面安装包内置 `dshmarket@1.40.0` 和兼容的 pnpm 运行时。由于应用生命周期由桌面宿主管理，市场内的一键进程重启已关闭；当插件提示需要重启时，请刷新页面或重新启动 DeepSeek Harness Desktop。
+
+### SSH 与远程运维
+
+如需 SSH 能力，可在“**设置 → Plugin Market**”中搜索并安装 [`dsh-ssh-ops`](https://github.com/caoyiwei850/dsh-ssh-ops)。它支持 SSH 终端、SFTP、端口转发、批量命令和数据库连接，并已验证可在本项目当前内置的 DSH 版本中正常加载。
+
+由于 SSH 插件会处理远程凭据，并可在其他机器上执行命令，本项目不会默认安装或启用它。请先检查插件源码与权限，仅在需要时安装，并在安装完成后重启 DeepSeek Harness Desktop。
 
 > [!WARNING]
 > 目录中的插件是社区维护的第三方代码，不代表 DeepSeek 或本项目的背书。插件安装后会以当前用户权限在本机运行，并可能访问 Harness 可访问的数据。安装前请检查源码、发布者、权限和构建脚本提示。

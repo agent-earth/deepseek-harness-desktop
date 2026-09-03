@@ -39,12 +39,12 @@ This project focuses on desktop hosting. It does not fork, modify, inject into, 
 
 | Platform | Architecture | Package | Download |
 | --- | --- | --- | --- |
-| macOS | Apple Silicon | DMG | [Download for Apple Silicon](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-arm64.dmg) |
-| macOS | Intel | DMG | [Download for Intel Mac](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-x64.dmg) |
-| Windows | x64 | Setup installer | [Download Windows installer](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-windows-x64.exe) |
-| Windows | x64 | Portable ZIP | [Download Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-windows-x64.zip) |
-| Linux | x64 | AppImage | [Download AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-linux-x86_64.AppImage) |
-| Debian / Ubuntu | x64 | deb | [Download deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-0.3.8-linux-amd64.deb) |
+| macOS | Apple Silicon | DMG | [Download for Apple Silicon](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-arm64.dmg) |
+| macOS | Intel | DMG | [Download for Intel Mac](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-x64.dmg) |
+| Windows | x64 | Setup installer | [Download Windows installer](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-windows-x64.exe) |
+| Windows | x64 | Portable ZIP | [Download Windows ZIP](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-windows-x64.zip) |
+| Linux | x64 | AppImage | [Download AppImage](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-linux-x86_64.AppImage) |
+| Debian / Ubuntu | x64 | deb | [Download deb](https://github.com/agent-earth/deepseek-harness-desktop/releases/latest/download/DeepSeek-Harness-Desktop-latest-linux-amd64.deb) |
 
 All current and historical packages are available on the [GitHub Releases page](https://github.com/agent-earth/deepseek-harness-desktop/releases), and you can also download from the Quark Drive mirror: [Quark Drive - DeepSeek Harness Desktop v0.3.1](https://pan.quark.cn/s/e2dfc232c52d)
 
@@ -83,6 +83,12 @@ DeepSeek Harness already provides the complete agent runtime and Web UI. This pr
 Open **Settings → Plugin Market** to browse and search the community catalog, inspect plugin sources, and install, update, disable, or remove plugins. The catalog is fetched live from [awesome-dsh-plugin.com](https://awesome-dsh-plugin.com), while package changes use the official `dsh plugin --profile web` workflow and remain in your local DSH profile.
 
 The desktop package includes `dshmarket@1.40.0` and a compatible pnpm runtime. Market-triggered process restart is disabled because application lifecycle remains owned by the desktop host; refresh the page or restart DeepSeek Harness Desktop when a plugin indicates that a restart is required.
+
+### SSH and remote operations
+
+For optional SSH access, search for [`dsh-ssh-ops`](https://github.com/caoyiwei850/dsh-ssh-ops) in **Settings → Plugin Market**. It provides SSH terminals, SFTP, port forwarding, batch commands, and database connections. The plugin has been verified to load with the DSH version bundled by this project.
+
+SSH access is not enabled or installed by default because it handles remote credentials and can execute commands on other machines. Review the plugin source and requested permissions, install it only when needed, then restart DeepSeek Harness Desktop after installation.
 
 > [!WARNING]
 > Catalog entries are community-maintained third-party code, not endorsements by DeepSeek or this project. Installed plugins run locally with your user permissions and may access data available to Harness. Review the source, publisher, permissions, and build-script warning before installing.
