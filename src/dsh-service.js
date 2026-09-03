@@ -1,5 +1,4 @@
 import { spawn } from 'node:child_process'
-import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const READY_PATTERN = /^dsh web: (http:\/\/127\.0\.0\.1:\d+)\b/m
@@ -87,7 +86,7 @@ export function buildDshEnvironment(environment, {
   const pathKey = platform === 'win32'
     ? Object.keys(environment).find((key) => key.toLowerCase() === 'path') ?? 'Path'
     : 'PATH'
-  const separator = platform === 'win32' ? ';' : path.delimiter
+  const separator = platform === 'win32' ? ';' : ':'
   return {
     ...environment,
     [pathKey]: [bundledToolDirectory, environment[pathKey]].filter(Boolean).join(separator),
