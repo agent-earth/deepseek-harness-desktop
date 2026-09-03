@@ -11,6 +11,14 @@ const apiProxyPath = path.join(
   'lib',
   'index.js',
 )
+const settingsGeneralClientPath = path.join(
+  root,
+  'node_modules',
+  '@deepseek-ai',
+  'dsh-client-ui-settings-general',
+  'lib',
+  'client.js',
+)
 const dshManifestPath = path.join(root, 'node_modules', '@deepseek-ai', 'dsh', 'package.json')
 const windowsNodePath = path.join(root, 'assets', 'dsh-node.exe')
 const nodeLicensePath = path.join(root, 'third-party-licenses', 'nodejs-LICENSE')
@@ -36,6 +44,80 @@ const PATCHED_WINDOWS_OPENER = `async function openWindowsPath(path, signal, run
 \t], signal);
 }`
 
+const SETTINGS_NAV_ICON_START = `\t\tfunction navIcon(id) {
+\t\t\tif (id === "models")`
+
+const MARKET_NAV_ICON = `\t\tfunction navIcon(id) {
+\t\t\tif (id === "market") return (0, react_jsx_runtime.jsxs)("svg", {
+\t\t\t\tclassName: SettingsRoot_module_css_default.navIcon,
+\t\t\t\twidth: 16,
+\t\t\t\theight: 16,
+\t\t\t\tviewBox: "0 0 16 16",
+\t\t\t\tfill: "none",
+\t\t\t\t"aria-hidden": "true",
+\t\t\t\tchildren: [(0, react_jsx_runtime.jsxs)("g", {
+\t\t\t\t\tfill: "currentColor",
+\t\t\t\t\tchildren: [(0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\t\tx: "1.96",
+\t\t\t\t\t\ty: "3.36",
+\t\t\t\t\t\twidth: "3.3",
+\t\t\t\t\t\theight: "3.3",
+\t\t\t\t\t\trx: "0.53"
+\t\t\t\t\t}), (0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\t\tx: "5.71",
+\t\t\t\t\t\ty: "3.36",
+\t\t\t\t\t\twidth: "3.3",
+\t\t\t\t\t\theight: "3.3",
+\t\t\t\t\t\trx: "0.53"
+\t\t\t\t\t}), (0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\t\tx: "1.96",
+\t\t\t\t\t\ty: "7.11",
+\t\t\t\t\t\twidth: "3.3",
+\t\t\t\t\t\theight: "3.3",
+\t\t\t\t\t\trx: "0.53"
+\t\t\t\t\t}), (0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\t\tx: "5.71",
+\t\t\t\t\t\ty: "7.11",
+\t\t\t\t\t\twidth: "3.3",
+\t\t\t\t\t\theight: "3.3",
+\t\t\t\t\t\trx: "0.53"
+\t\t\t\t\t}), (0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\t\tx: "9.46",
+\t\t\t\t\t\ty: "7.11",
+\t\t\t\t\t\twidth: "3.3",
+\t\t\t\t\t\theight: "3.3",
+\t\t\t\t\t\trx: "0.53"
+\t\t\t\t\t}), (0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\t\tx: "1.96",
+\t\t\t\t\t\ty: "10.86",
+\t\t\t\t\t\twidth: "3.3",
+\t\t\t\t\t\theight: "3.3",
+\t\t\t\t\t\trx: "0.53"
+\t\t\t\t\t}), (0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\t\tx: "5.71",
+\t\t\t\t\t\ty: "10.86",
+\t\t\t\t\t\twidth: "3.3",
+\t\t\t\t\t\theight: "3.3",
+\t\t\t\t\t\trx: "0.53"
+\t\t\t\t\t}), (0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\t\tx: "9.46",
+\t\t\t\t\t\ty: "10.86",
+\t\t\t\t\t\twidth: "3.3",
+\t\t\t\t\t\theight: "3.3",
+\t\t\t\t\t\trx: "0.53"
+\t\t\t\t\t})]
+\t\t\t\t}), (0, react_jsx_runtime.jsx)("rect", {
+\t\t\t\t\tx: "10.74",
+\t\t\t\t\ty: "2.09",
+\t\t\t\t\twidth: "3.3",
+\t\t\t\t\theight: "3.3",
+\t\t\t\t\trx: "0.53",
+\t\t\t\t\tfill: "currentColor",
+\t\t\t\t\ttransform: "rotate(9 12.39 3.74)"
+\t\t\t\t})]
+\t\t\t});
+\t\t\tif (id === "models")`
+
 export function encodeWindowsOpenCommand(targetPath) {
   const literal = `'${targetPath.replaceAll("'", "''")}'`
   const command = `Invoke-Item -LiteralPath ${literal}`
@@ -54,6 +136,21 @@ export function patchWindowsPathOpener(source) {
 export function prepareApiProxy(target = apiProxyPath) {
   const source = readFileSync(target, 'utf8')
   const patched = patchWindowsPathOpener(source)
+  if (patched !== source) writeFileSync(target, patched)
+}
+
+export function patchSettingsMarketNavIcon(source) {
+  if (source.includes(MARKET_NAV_ICON)) return source
+  const matches = source.split(SETTINGS_NAV_ICON_START).length - 1
+  if (matches !== 1) {
+    throw new Error(`Expected exactly one DeepSeek Harness settings nav icon function, found ${matches}`)
+  }
+  return source.replace(SETTINGS_NAV_ICON_START, MARKET_NAV_ICON)
+}
+
+export function prepareSettingsMarketNavIcon(target = settingsGeneralClientPath) {
+  const source = readFileSync(target, 'utf8')
+  const patched = patchSettingsMarketNavIcon(source)
   if (patched !== source) writeFileSync(target, patched)
 }
 
@@ -107,6 +204,7 @@ function isMainModule() {
 
 if (isMainModule()) {
   prepareApiProxy()
+  prepareSettingsMarketNavIcon()
   prepareDshManifest()
   prepareWindowsNode()
 }

@@ -3,6 +3,7 @@ import test from 'node:test'
 import {
   encodeWindowsOpenCommand,
   patchDshManifest,
+  patchSettingsMarketNavIcon,
   patchWindowsPathOpener,
 } from '../scripts/prepare-dependencies.mjs'
 
@@ -33,6 +34,27 @@ test('dependency patch replaces exactly the pinned Windows path opener', () => {
 test('dependency patch fails loudly when upstream implementation drifts', () => {
   assert.throws(
     () => patchWindowsPathOpener('async function openWindowsPath() {}'),
+    /Expected exactly one/,
+  )
+})
+
+test('settings market nav uses the same block-grid logo as the market heading', () => {
+  const source = `before
+\t\tfunction navIcon(id) {
+\t\t\tif (id === "models") return modelIcon
+\t\t}
+after`
+  const patched = patchSettingsMarketNavIcon(source)
+  assert.match(patched, /if \(id === "market"\)/)
+  assert.match(patched, /viewBox: "0 0 16 16"/)
+  assert.match(patched, /transform: "rotate\(9 12\.39 3\.74\)"/)
+  assert.match(patched, /if \(id === "models"\) return modelIcon/)
+  assert.equal(patchSettingsMarketNavIcon(patched), patched)
+})
+
+test('settings market nav patch fails loudly when upstream implementation drifts', () => {
+  assert.throws(
+    () => patchSettingsMarketNavIcon('function navIcon() {}'),
     /Expected exactly one/,
   )
 })
