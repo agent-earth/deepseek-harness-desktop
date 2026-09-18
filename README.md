@@ -67,6 +67,7 @@ DeepSeek Harness already provides the complete agent runtime and Web UI. This pr
 - Bundles pnpm so catalog plugins can be installed, updated, and removed without a separate Node.js toolchain
 - Keeps running in the system tray when the main window is closed
 - Opens the active local Harness URL in the system browser from the tray menu
+- Checks for desktop updates automatically, with optional automatic downloads on Windows NSIS and Linux AppImage
 - Preserves the complete settings, models, sessions, plugins, and agent experience
 - Gracefully terminates the Harness child process on application exit
 - Listens only on a random local loopback port
@@ -77,6 +78,23 @@ DeepSeek Harness already provides the complete agent runtime and Web UI. This pr
 - Uses the official in-app directory browser on Windows to avoid packaged native-dialog worker failures
 - Reserves a draggable Windows title bar so native window controls do not cover Harness content
 - Removes the default Electron File, Edit, View, and Window menu bar on Windows
+
+## Updates
+
+Use **Check for Updates…** in the tray menu or the **DeepSeek Harness** application menu on macOS. Linux and Windows also provide an **Updates** menu; on Windows, press Alt to reveal it. **Ctrl/Cmd+Shift+U** checks for updates directly. The Updates menu remains visible on Windows when a system tray is unavailable.
+
+**Automatically Check for Updates** is enabled by default. Packaged apps check 30 seconds after Harness starts and every six hours while running. Disable it in the menu to stop background checks; manual checks remain available. Preferences are saved across restarts. Background checks use this repository's public GitHub Releases; network failures do not interrupt Harness.
+
+| Distribution | Update behavior |
+| --- | --- |
+| Windows NSIS installer / Linux AppImage | Download in the app, then choose **Restart and Install** when your tasks are finished. Optional **Download Updates Automatically** is off by default. |
+| macOS / Windows ZIP / Linux deb | Detect new releases and offer to open their download page. Complete installation using the appropriate package for your platform and architecture. |
+
+Updates never install merely because you close or quit the app. Restarting to install stops running Harness tasks, so finish them first. macOS currently uses an ad-hoc signature and cannot use the signed Squirrel.Mac update flow.
+
+The bundled **Harness runtime updates together with Desktop** when a new desktop release includes an upstream upgrade. Its current version is shown in update dialogs. The daily upstream-sync workflow opens a PR for new DSH versions; after validation and a new desktop release, clients receive it through the same update flow. This does not install npm's latest Harness independently or modify your local Harness profiles and sessions.
+
+Versions released before this feature need one manual desktop upgrade to gain these update options. Source/development runs do not check for or install updates.
 
 ## Plugin market
 
@@ -166,7 +184,7 @@ Every release package is built on a matching GitHub-hosted runner and runs a pac
 - Apple Developer ID signing and notarization are not integrated
 - Commercial Windows code signing is not integrated, so SmartScreen may appear
 - Windows ARM64 and Linux ARM64 packages are not currently provided
-- Automatic updates are not integrated
+- macOS, Windows ZIP, and Linux deb updates require completing installation from the release download page
 
 ## Upstream version and license
 

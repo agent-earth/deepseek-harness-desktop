@@ -63,6 +63,8 @@ jobs:
           path: |
             dist/*.exe
             dist/*windows*.zip
+            dist/*.exe.blockmap
+            dist/latest.yml
 
   linux:
     runs-on: ubuntu-24.04
@@ -82,9 +84,10 @@ jobs:
           path: |
             dist/*.AppImage
             dist/*.deb
+            dist/*.blockmap
+            dist/latest-linux.yml
 
   release:
-    if: startsWith(github.ref, 'refs/tags/')
     needs:
       - macos
       - windows
@@ -92,13 +95,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
       - uses: actions/download-artifact@v4
         with:
           pattern: '*'
           merge-multiple: true
           path: dist
       - run: npm run prepare:release-assets
+      - name: Validate versioned update assets before publication
+        run: npm run validate:update-metadata
+        env:
+          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
       - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             dist/*.dmg
@@ -106,4 +119,8 @@ jobs:
             dist/*.exe
             dist/*.AppImage
             dist/*.deb
+            dist/*.blockmap
+            dist/latest.yml
+            dist/latest-linux.yml
+          fail_on_unmatched_files: true
           generate_release_notes: true

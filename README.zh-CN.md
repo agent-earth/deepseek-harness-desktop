@@ -67,6 +67,7 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 - 随应用提供 pnpm，可直接安装、更新和卸载目录中的插件，无需另行配置 Node.js 工具链
 - 支持系统托盘驻留，关闭主窗口后可继续在后台运行
 - 可通过托盘菜单在系统浏览器中打开当前本地 Harness 地址
+- 支持自动检查桌面更新，Windows 安装版和 Linux AppImage 可选自动下载
 - 保留完整的设置、模型、会话、插件和 Agent 能力
 - 应用退出时自动终止 Harness 子进程
 - Web 服务仅监听随机本地回环端口，不暴露到局域网
@@ -77,6 +78,23 @@ DeepSeek Harness 已经提供完整的 Agent Runtime 和 Web UI。本项目不�
 - Windows 使用官方应用内目录浏览器，避免打包环境下的原生文件夹对话框异常
 - Windows 预留可拖动标题栏，避免原生窗口按钮遮挡 Harness 内容
 - Windows 隐藏 Electron 默认的 File、Edit、View 和 Window 菜单栏
+
+## 更新
+
+从托盘菜单，或 macOS 的 **DeepSeek Harness** 应用菜单中选择“**检查更新…**”。Linux 和 Windows 也提供“**更新**”菜单，Windows 可按 Alt 显示菜单。快捷键 **Ctrl/Cmd+Shift+U** 可直接检查更新；Windows 系统托盘不可用时，“更新”菜单会保持可见。
+
+“**自动检查更新**”默认开启：打包后的应用会在 Harness 启动成功 30 秒后检查一次，运行期间每六小时检查一次。关闭后停止后台检查，仍可手动检查。开关会在重启后保留。检查请求发送至本仓库公开的 GitHub Releases，后台网络失败不会打断 Harness。
+
+| 发行方式 | 更新行为 |
+| --- | --- |
+| Windows NSIS 安装版 / Linux AppImage | 在应用内下载，完成手头任务后选择“重启并安装”。可选的“自动下载更新”默认关闭。 |
+| macOS / Windows ZIP / Linux deb | 检测新版并提供发行页入口，由你下载对应平台和架构的安装包并完成安装。 |
+
+关闭窗口或普通退出不会自动安装。重启安装会停止正在运行的 Harness 任务，请先完成任务。macOS 当前使用临时签名，尚不支持需要有效签名的 Squirrel.Mac 自动安装流程。
+
+**内置 Harness 随 Desktop 一起更新**：桌面新版包含上游升级时，两者通过同一个安装包交付。更新对话框会显示当前内置 Harness 版本。每日上游同步流程发现 DSH 新版本后会创建 PR，验证并发布新的桌面版本后，客户端即可通过相同流程获取。应用不会单独安装 npm 上未经桌面适配验证的 Harness 最新版，也不会修改本地 Harness profile 和会话。
+
+此功能发布前的旧版本需要先手动升级一次桌面应用，才能获得更新选项。源码开发模式不会检查或安装更新。
 
 ## 插件市场
 
@@ -166,7 +184,7 @@ DeepSeek Harness Desktop
 - macOS 尚未接入 Developer ID 和 notarization
 - Windows 尚未接入商业代码签名，首次启动可能出现 SmartScreen
 - 尚未提供 Windows ARM64 和 Linux ARM64 构建
-- 尚未集成自动更新
+- macOS、Windows ZIP 和 Linux deb 需要从发行页下载安装包并完成安装
 
 ## 上游版本与许可
 

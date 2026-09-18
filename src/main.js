@@ -1,4 +1,6 @@
 import { fileURLToPath } from 'node:url'
+import { readFileSync } from 'node:fs'
+import path from 'node:path'
 import {
   app,
   BrowserWindow,
@@ -14,6 +16,9 @@ import { applyMacTitleBarStyle } from './mac-titlebar.js'
 import { createWindowOptions } from './window-options.js'
 import { createTrayMenuTemplate, shouldHideWindowOnClose } from './window-lifecycle.js'
 import { applyWindowsTitleBarStyle } from './windows-titlebar.js'
+import { createUpdateService } from './update-service.js'
+import { getUpdateMode, readUpdatePreferences, writeUpdatePreferences } from './update-settings.js'
+import { createApplicationMenuTemplate, createUpdateMenuTemplate } from './update-menu.js'
 
 const APP_NAME = 'DeepSeek Harness'
 const STARTUP_PAGE = fileURLToPath(new URL('./startup.html', import.meta.url))
@@ -26,6 +31,7 @@ let serviceUrl
 let tray
 let trayAvailable = false
 let isQuitting = false
+let updateService
 
 app.setName(APP_NAME)
 
@@ -49,13 +55,11 @@ async function openInBrowser() {
 }
 
 function createWindow() {
-  if (process.platform === 'win32') Menu.setApplicationMenu(null)
-
   mainWindow = new BrowserWindow(createWindowOptions(process.platform, nativeTheme.shouldUseDarkColors))
 
   if (process.platform === 'win32') {
-    mainWindow.setMenu(null)
-    mainWindow.setMenuBarVisibility(false)
+    mainWindow.setAutoHideMenuBar(trayAvailable)
+    mainWindow.setMenuBarVisibility(!trayAvailable)
   }
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
@@ -94,20 +98,74 @@ function createTray() {
     process.platform === 'darwin' ? TRAY_TEMPLATE_ICON : TRAY_ICON,
   )
   if (process.platform === 'darwin') trayIcon.setTemplateImage(true)
-  tray = new Tray(trayIcon)
-  tray.setToolTip(APP_NAME)
-  tray.setContextMenu(Menu.buildFromTemplate(createTrayMenuTemplate({
+  const newTray = new Tray(trayIcon)
+  try {
+    newTray.setToolTip(APP_NAME)
+    newTray.on('click', () => void showMainWindow())
+  } catch (error) {
+    newTray.destroy()
+    throw error
+  }
+  tray = newTray
+  trayAvailable = true
+}
+
+function refreshMenus() {
+  const updates = updateService ? createUpdateMenuTemplate({
+    locale: app.getLocale(),
+    state: updateService.getState(),
+    enabled: app.isPackaged,
+    check: () => void updateService.check(),
+    setAutoCheck: checked => updateService.setAutoCheck(checked),
+    setAutoDownload: checked => updateService.setAutoDownload(checked),
+  }) : []
+  Menu.setApplicationMenu(Menu.buildFromTemplate(createApplicationMenuTemplate({
+    platform: process.platform,
+    locale: app.getLocale(),
+    updates,
+  })))
+  if (process.platform === 'win32') {
+    mainWindow?.setAutoHideMenuBar(trayAvailable)
+    mainWindow?.setMenuBarVisibility(!trayAvailable)
+  }
+  tray?.setContextMenu(Menu.buildFromTemplate(createTrayMenuTemplate({
     locale: app.getLocale(),
     showWindow: () => void showMainWindow(),
     openInBrowser: () => void openInBrowser(),
     hideWindow: () => mainWindow?.hide(),
+    updates,
     quit: () => {
       isQuitting = true
       app.quit()
     },
   })))
-  tray.on('click', () => void showMainWindow())
-  trayAvailable = true
+}
+
+async function configureUpdates() {
+  const preferencesPath = path.join(app.getPath('userData'), 'desktop-updates.json')
+  const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
+  const mode = getUpdateMode({ isPackaged: app.isPackaged })
+  let nativeUpdater = null
+  if (mode === 'nsis' || mode === 'appimage') {
+    try {
+      const { default: updater } = await import('electron-updater')
+      nativeUpdater = mode === 'nsis' ? new updater.NsisUpdater() : new updater.AppImageUpdater()
+    } catch (error) {
+      console.warn(`Native updater is unavailable; using release downloads: ${error.message}`)
+    }
+  }
+  updateService = createUpdateService({
+    currentVersion: app.getVersion(),
+    harnessVersion: manifest.dependencies['@deepseek-ai/dsh'],
+    locale: app.getLocale(),
+    nativeUpdater,
+    preferences: readUpdatePreferences(preferencesPath),
+    savePreferences: next => writeUpdatePreferences(preferencesPath, next),
+    showMessageBox: options => dialog.showMessageBox(options),
+    openExternal: url => shell.openExternal(url),
+    onChange: refreshMenus,
+  })
+  refreshMenus()
 }
 
 async function launch() {
@@ -116,6 +174,11 @@ async function launch() {
     createTray()
   } catch (error) {
     console.warn(`System tray is unavailable: ${error instanceof Error ? error.message : String(error)}`)
+  }
+  try {
+    await configureUpdates()
+  } catch (error) {
+    console.warn(`Could not initialize desktop updates: ${error instanceof Error ? error.message : String(error)}`)
   }
 
   service = startDshService({
@@ -131,6 +194,13 @@ async function launch() {
     serviceUrl = await service.ready
     await startupReady
     await mainWindow?.loadURL(serviceUrl)
+    if (app.isPackaged) {
+      try {
+        updateService?.start()
+      } catch (error) {
+        console.warn(`Could not schedule desktop updates: ${error instanceof Error ? error.message : String(error)}`)
+      }
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     await dialog.showMessageBox({
@@ -165,5 +235,6 @@ app.on('window-all-closed', () => {
 
 app.on('before-quit', () => {
   isQuitting = true
+  updateService?.stop()
   service?.stop()
 })

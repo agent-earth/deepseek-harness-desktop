@@ -8,6 +8,7 @@ export function createTrayMenuTemplate({
   openInBrowser,
   hideWindow,
   quit,
+  updates = [],
 }) {
   const isChinese = locale.toLowerCase().startsWith('zh')
 
@@ -25,6 +26,8 @@ export function createTrayMenuTemplate({
       click: hideWindow,
     },
     { type: 'separator' },
+    ...updates,
+    ...(updates.length ? [{ type: 'separator' }] : []),
     {
       label: isChinese ? '退出' : 'Quit',
       click: quit,

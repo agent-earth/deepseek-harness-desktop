@@ -23,6 +23,7 @@
     "postinstall": "node scripts/prepare-dependencies.mjs",
     "sync:upstream": "node scripts/sync-upstream.mjs",
     "prepare:release-assets": "node scripts/prepare-release-assets.mjs",
+    "validate:update-metadata": "node scripts/validate-update-metadata.mjs",
     "prepare:windows": "node scripts/prepare-dependencies.mjs && npm run build:win-launcher",
     "build:win-launcher": "powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/build-windows-launcher.ps1",
     "test:win-console": "node scripts/test-windows-hidden-console.mjs",
@@ -57,11 +58,14 @@
     "@deepseek-ai/dsh-timeout": "0.1.1-rc.2",
     "@deepseek-ai/dsh-workflow": "0.1.1-rc.2",
     "dshmarket": "1.40.0",
-    "pnpm": "10.34.5"
+    "electron-updater": "6.8.9",
+    "pnpm": "10.34.5",
+    "semver": "7.8.5"
   },
   "devDependencies": {
     "electron": "43.4.0",
-    "electron-builder": "26.0.12"
+    "electron-builder": "26.0.12",
+    "js-yaml": "5.4.1"
   },
   "build": {
     "afterSign": "scripts/after-pack.cjs",
@@ -69,6 +73,12 @@
     "productName": "DeepSeek Harness",
     "artifactName": "DeepSeek-Harness-Desktop-${version}-${arch}.${ext}",
     "asar": false,
+    "publish": {
+      "provider": "github",
+      "owner": "agent-earth",
+      "repo": "deepseek-harness-desktop",
+      "releaseType": "release"
+    },
     "files": [
       "src/**/*",
       "config/**/*",
